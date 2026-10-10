@@ -1,6 +1,6 @@
-# JGZ Contentregister Demo – openbare website
+# JGZ Ouder&Kind contentregister – openbare website
 
-Dit is de openbare, statische GitHub Pages-publicatie van de JGZ Contentregister Demo.
+Dit is de openbare, statische GitHub Pages-publicatie van het JGZ Ouder&Kind contentregister.
 
 ## Website
 
