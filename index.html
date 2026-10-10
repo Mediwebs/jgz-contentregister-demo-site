@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Eenvoudige demo van een JGZ-organisatie met een CHIP-contentregister.">
+  <title>JGZ ContentKompas · CHIP demo</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Ga naar de inhoud</a>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand" aria-label="JGZ Regio">
+        <div class="brand-row"><span class="jgz-symbol">J</span><strong class="jgz-mark">JGZ Regio</strong></div>
+        <small>Contentregister · demonstratie</small>
+      </div>
+      <nav aria-label="Hoofdnavigatie">
+        <button class="nav-item active" data-view="home"><span>⌂</span><b>Start</b></button>
+        <button class="nav-item" data-view="library"><span>▦</span><b>Bibliotheek</b></button>
+        <button class="nav-item" data-view="sources"><span>◎</span><b>Bronnen</b></button>
+        <button class="nav-item" data-view="outputs"><span>↗</span><b>Waar gebruiken?</b></button>
+      </nav>
+      <div class="help-card">
+        <b>Hulp nodig?</b>
+        <p>Begin bij Start. Iedere stap legt zichzelf uit.</p>
+        <button id="show-help">Bekijk de korte uitleg</button>
+      </div>
+      <p class="demo-label">Demoomgeving zonder persoonsgegevens</p>
+    </aside>
+
+    <main id="main">
+      <header class="topbar">
+        <div><p class="eyebrow">JGZ CONTENTKOMPAS</p><h1 id="page-title">Goedemorgen, waar wilt u mee beginnen?</h1></div>
+        <button class="primary" id="add-content">＋ Nieuwe informatie</button>
+      </header>
+
+      <section id="home-view" class="view active">
+        <section class="welcome">
+          <div>
+            <span class="welcome-label">Eenvoudig samenwerken</span>
+            <h2>Alle informatie rustig bij elkaar</h2>
+            <p>Verzamel informatie voor ouders, jongeren en professionals. Controleer de bron en kies rustig waar de informatie gebruikt mag worden.</p>
+          </div>
+          <div class="route" aria-label="Werkwijze">
+            <span><b>1</b>Verzamelen</span><i>›</i><span><b>2</b>Controleren</span><i>›</i><span><b>3</b>Gebruiken</span>
+          </div>
+        </section>
+
+        <section class="quick-start" aria-labelledby="quick-title">
+          <div class="section-title"><p class="eyebrow">SNEL BEGINNEN</p><h2 id="quick-title">Wat wilt u doen?</h2></div>
+          <div class="choice-grid">
+            <button class="choice-card green" data-add-kind="Webpagina"><span>＋</span><div><b>Een link toevoegen</b><small>Informatie van een website bewaren</small></div><i>→</i></button>
+            <button class="choice-card purple" data-add-kind="Eigen tekst"><span>✎</span><div><b>Zelf iets schrijven</b><small>Een uitleg of lokale aanvulling maken</small></div><i>→</i></button>
+            <button class="choice-card coral" data-go="library"><span>▦</span><div><b>Informatie zoeken</b><small>Bekijk alles in de bibliotheek</small></div><i>→</i></button>
+          </div>
+        </section>
+
+        <section class="stats" id="stats"></section>
+
+        <div class="home-grid">
+          <section class="panel">
+            <div class="panel-head"><div><p class="eyebrow">LAATST TOEGEVOEGD</p><h2>Nieuwe informatie</h2></div><button class="text-button" data-go="library">Bekijk alles →</button></div>
+            <div class="simple-list" id="recent-list"></div>
+          </section>
+          <section class="panel attention">
+            <div class="panel-head"><div><p class="eyebrow">NOG EVEN NAKIJKEN</p><h2>Dit vraagt aandacht</h2></div><span class="count" id="attention-count"></span></div>
+            <div class="attention-list" id="attention-list"></div>
+          </section>
+        </div>
+      </section>
+
+      <section id="library-view" class="view">
+        <section class="page-intro">
+          <div><p class="eyebrow">BIBLIOTHEEK</p><h2>Alle informatie</h2><p>Zoek op een gewoon woord of kies één bron. Meer hoeft niet.</p></div>
+          <div class="item-count" id="library-count"></div>
+        </section>
+        <div class="filters">
+          <label class="search"><span>⌕</span><input id="search" type="search" placeholder="Waar zoekt u naar?"></label>
+          <select id="provider-filter" aria-label="Kies een bron"><option value="">Alle bronnen</option></select>
+          <select id="status-filter" aria-label="Kies een status"><option value="">Alle statussen</option></select>
+          <button class="clear-button" id="clear-filters" type="button">Wis keuze</button>
+        </div>
+        <p class="result-help" id="result-help"></p>
+        <div class="content-grid" id="library-grid"></div>
+      </section>
+
+      <section id="sources-view" class="view">
+        <section class="page-intro"><div><p class="eyebrow">BRONNEN</p><h2>Waar komt de informatie vandaan?</h2><p>Iedere bron heeft een eigen kaart. Een koppeling in deze demo betekent nog geen gebruiksrecht of inhoudelijke goedkeuring.</p></div></section>
+        <div class="source-grid" id="source-grid"></div>
+      </section>
+
+      <section id="outputs-view" class="view">
+        <section class="page-intro"><div><p class="eyebrow">GEBRUIKEN</p><h2>Eén bibliotheek, meerdere plekken</h2><p>Kies per item waar het later zichtbaar mag worden. De koppelingen zijn in deze demo nog voorbeelden.</p></div></section>
+        <div class="output-grid" id="output-grid"></div>
+        <section class="flow-panel">
+          <div><span>◎</span><b>Bronnen</b><small>Websites, documenten en eigen teksten</small></div><i>→</i>
+          <div class="flow-core"><span>◆</span><b>CHIP contentregister</b><small>Herkomst, rechten, versie en controle</small></div><i>→</i>
+          <div><span>↗</span><b>Toepassingen</b><small>Website, ouderportaal, chatbot en professionalomgeving</small></div>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <dialog id="detail-dialog">
+    <button class="close" type="button" aria-label="Sluiten">×</button>
+    <div id="detail-content"></div>
+  </dialog>
+
+  <dialog id="help-dialog">
+    <button class="close" type="button" aria-label="Sluiten">×</button>
+    <p class="eyebrow">KORTE UITLEG</p>
+    <h2>U kunt niets per ongeluk publiceren</h2>
+    <ol class="help-steps">
+      <li><span>1</span><div><b>Voeg iets toe</b><p>Plak een link of schrijf een eigen tekst.</p></div></li>
+      <li><span>2</span><div><b>Controleer de basis</b><p>Bekijk de bron, de rechten en wie de inhoud moet nakijken.</p></div></li>
+      <li><span>3</span><div><b>Kies waar het heen mag</b><p>Pas na goedkeuring wordt informatie klaargezet voor een toepassing.</p></div></li>
+    </ol>
+    <button class="primary dialog-action" data-help-add>Nieuwe informatie toevoegen</button>
+  </dialog>
+
+  <dialog id="source-output-dialog">
+    <button class="close" type="button" aria-label="Sluiten">×</button>
+    <p class="eyebrow">BRON GEBRUIKEN</p>
+    <h2 id="source-output-title">Waar mag deze bron gebruikt worden?</h2>
+    <p class="dialog-lead">Vink alleen de plekken aan waarvoor de bron is beoordeeld. Dit is een demokeuze en publiceert nog niets.</p>
+    <form id="source-output-form">
+      <div class="output-checks" id="source-output-checks"></div>
+      <div class="dialog-form-actions">
+        <button class="secondary" type="button" data-cancel-source-output>Annuleren</button>
+        <button class="primary" type="submit">Keuze bewaren</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="add-dialog">
+    <button class="close" type="button" aria-label="Sluiten">×</button>
+    <p class="eyebrow">NIEUWE INFORMATIE</p>
+    <h2 id="wizard-title">Stap 1 van 3 · Wat wilt u toevoegen?</h2>
+    <div class="progress" aria-hidden="true"><span class="active"></span><span></span><span></span></div>
+    <form id="content-form">
+      <fieldset class="wizard-step active" data-step="1">
+        <legend>Kies wat het beste past</legend>
+        <div class="kind-grid">
+          <label><input type="radio" name="contentType" value="Webpagina" checked><span>↗</span><b>Link naar website</b><small>Bijvoorbeeld GroeiGids of het RVP</small></label>
+          <label><input type="radio" name="contentType" value="Document"><span>▤</span><b>Document of folder</b><small>Bewaar de link naar het bestand</small></label>
+          <label><input type="radio" name="contentType" value="Video"><span>▶</span><b>Video of animatie</b><small>Bewaar de link naar de video</small></label>
+          <label><input type="radio" name="contentType" value="Eigen tekst"><span>✎</span><b>Eigen tekst</b><small>Maak een korte lokale aanvulling</small></label>
+        </div>
+      </fieldset>
+
+      <fieldset class="wizard-step" data-step="2">
+        <legend>Vertel kort waar het over gaat</legend>
+        <label>Titel *<input name="title" maxlength="160" required placeholder="Bijvoorbeeld: Uw kind voorbereiden op een vaccinatie"></label>
+        <label>Link naar de informatie<input name="mediaUrl" type="url" placeholder="https://…"></label>
+        <label>Bronorganisatie *
+          <input name="sourceOrganisation" list="provider-options" value="JGZ Regio" maxlength="160" required>
+          <datalist id="provider-options">
+            <option value="JGZ Regio">
+            <option value="Nederlands Centrum Jeugdgezondheid">
+            <option value="JGZ Richtlijnen">
+            <option value="GroeiGids">
+            <option value="Rijksvaccinatieprogramma">
+            <option value="Voedingscentrum">
+            <option value="Kinderveiligheid.nl">
+            <option value="Pharos">
+          </datalist>
+        </label>
+        <label>Naam van de bron *<input name="sourceName" maxlength="160" required placeholder="Naam van de pagina, folder of eigen redactie"></label>
+        <label>Onderwerp *<input name="topic" maxlength="100" required placeholder="Bijvoorbeeld: ziekenhuis, onderwijs of voeding"></label>
+        <label class="wide">Korte uitleg *<textarea name="description" rows="4" maxlength="600" required placeholder="Schrijf in één of twee zinnen wat iemand hier kan vinden."></textarea></label>
+      </fieldset>
+
+      <fieldset class="wizard-step" data-step="3">
+        <legend>Wie kijkt dit na?</legend>
+        <div class="plain-note"><span>✓</span><p>De technische gegevens, het content-ID, paspoort-ID en de hash worden automatisch gemaakt.</p></div>
+        <label>Wat mag ermee? *<select name="rightsStatus" required><option>Onbekend</option><option>Alleen verwijzen/embedden toegestaan</option><option>Expliciete toestemming</option><option>Concrete licentie</option><option>Aangeschafte licentie</option><option>Creative Commons BY 4.0</option><option>CC0</option></select></label>
+        <label>Welke controle is nodig? *<select name="validationProfile" required><option>Bronvaliditeit</option><option>Inhoudsvaliditeit</option><option>Inhouds- en transformatievaliditeit</option><option>Contextvaliditeit</option></select></label>
+        <label>Naam beoordelaar<input name="validatorName" maxlength="160" placeholder="Naam of functie"></label>
+        <label>Organisatie beoordelaar<input name="validatorOrganisation" maxlength="160" value="JGZ Regio"></label>
+        <label class="approval-box"><input type="checkbox" name="approvalConfirmed" value="true"><span>Deze exacte versie goedkeuren</span></label>
+        <p class="role-note"><strong>Demorol: valideerder.</strong> In de echte versie bepaalt de gebruikersrol of goedkeuren mogelijk is.</p>
+      </fieldset>
+
+      <input type="hidden" name="language" value="Nederlands">
+      <p id="form-message" role="status"></p>
+      <div class="wizard-actions">
+        <button class="secondary" id="wizard-back" type="button">← Vorige</button>
+        <button class="primary" id="wizard-next" type="button">Verder →</button>
+        <button class="primary" id="wizard-save" type="submit">Opslaan als concept</button>
+      </div>
+    </form>
+  </dialog>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
