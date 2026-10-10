@@ -1,5 +1,5 @@
 const PROVIDERS = [
-  "JGZ Regio",
+  "JGZ Ouder&Kind",
   "Nederlands Centrum Jeugdgezondheid",
   "JGZ Richtlijnen",
   "GroeiGids",
@@ -17,7 +17,7 @@ const items = [
     "topic": "Contact met de JGZ",
     "status": "Klaar voor gebruik",
     "desc": "Rustige uitleg over het eerste bezoek, wat ouders meenemen en welke vragen zij kunnen stellen.",
-    "provider": "JGZ Regio",
+    "provider": "JGZ Ouder&Kind",
     "source": "Eigen ouderinformatie",
     "sourceUrl": "https://www.ncj.nl/",
     "audience": "Ouders van baby’s",
@@ -25,7 +25,7 @@ const items = [
       "JGZ-website",
       "Ouderportaal"
     ],
-    "owner": "Redactie JGZ Regio",
+    "owner": "Redactie JGZ Ouder&Kind",
     "rights": "Eigen productie",
     "review": "1 mei 2027",
     "validation": "Demostatus: voorbeeldtekst is door de fictieve JGZ-redactie gecontroleerd."
@@ -37,7 +37,7 @@ const items = [
     "topic": "Contact met de JGZ",
     "status": "Nog controleren",
     "desc": "Voorbeeldanimatie over meten, wegen, ontwikkeling bespreken en ruimte voor vragen.",
-    "provider": "JGZ Regio",
+    "provider": "JGZ Ouder&Kind",
     "source": "Eigen animatieconcept",
     "sourceUrl": "https://www.ncj.nl/",
     "audience": "Ouders en kinderen",
@@ -57,7 +57,7 @@ const items = [
     "topic": "Contact met de JGZ",
     "status": "Concept",
     "desc": "Korte checklist waarmee ouders en jongeren hun vragen vooraf kunnen verzamelen.",
-    "provider": "JGZ Regio",
+    "provider": "JGZ Ouder&Kind",
     "source": "Lokale redactie",
     "sourceUrl": "https://www.ncj.nl/",
     "audience": "Ouders en jongeren",
@@ -65,7 +65,7 @@ const items = [
       "Ouderportaal",
       "Chatbot"
     ],
-    "owner": "Redactie JGZ Regio",
+    "owner": "Redactie JGZ Ouder&Kind",
     "rights": "Eigen productie",
     "review": "Nog te plannen",
     "validation": "Demo-item; inhoudelijke en taalcontrole staan open."
@@ -98,7 +98,7 @@ const items = [
     "topic": "Vaccinaties",
     "status": "Nog controleren",
     "desc": "Voorbeeldvideo met eenvoudige uitleg over voorbereiding, afleiding en nazorg bij een prik.",
-    "provider": "JGZ Regio",
+    "provider": "JGZ Ouder&Kind",
     "source": "Eigen videoconcept",
     "sourceUrl": "https://rijksvaccinatieprogramma.nl/",
     "audience": "Ouders en kinderen",
@@ -317,7 +317,7 @@ const items = [
     "topic": "Mentale gezondheid",
     "status": "Nog controleren",
     "desc": "Lokale wegwijzer voor jongeren met uitleg waar zij vragen, zorgen of sombere gevoelens kunnen bespreken.",
-    "provider": "JGZ Regio",
+    "provider": "JGZ Ouder&Kind",
     "source": "Lokale jongerenredactie",
     "sourceUrl": "https://www.ncj.nl/",
     "audience": "Jongeren van 12 tot 18 jaar",
@@ -395,7 +395,7 @@ const items = [
     "topic": "Mondgezondheid",
     "status": "Nog controleren",
     "desc": "Korte ouderuitleg over poetsen, eet- en drinkmomenten en wanneer advies nodig is.",
-    "provider": "JGZ Regio",
+    "provider": "JGZ Ouder&Kind",
     "source": "Lokale oudertekst op basis van professionele richtlijn",
     "sourceUrl": "https://www.jgzrichtlijnen.nl/richtlijnen/",
     "audience": "Ouders van jonge kinderen",
@@ -413,7 +413,7 @@ const items = [
 
 const sources = [
   {
-    "name": "JGZ Regio",
+    "name": "JGZ Ouder&Kind",
     "short": "J",
     "color": "green",
     "desc": "Fictieve JGZ-organisatie met lokale informatie voor ouders, jongeren en professionals.",
@@ -531,7 +531,7 @@ const OUTPUTS = [
 ];
 
 const defaultSourceSelections = {
-  "JGZ Regio": [
+  "JGZ Ouder&Kind": [
     "website",
     "portal",
     "chatbot",
@@ -577,6 +577,11 @@ const defaultSourceSelections = {
 function loadSourceSelections() {
   try {
     const saved = JSON.parse(localStorage.getItem('chip-jgz-source-outputs') || 'null');
+    if (saved && saved['JGZ Regio'] && !saved['JGZ Ouder&Kind']) {
+      saved['JGZ Ouder&Kind'] = saved['JGZ Regio'];
+      delete saved['JGZ Regio'];
+      localStorage.setItem('chip-jgz-source-outputs', JSON.stringify(saved));
+    }
     return saved && typeof saved === 'object' ? saved : JSON.parse(JSON.stringify(defaultSourceSelections));
   } catch {
     return JSON.parse(JSON.stringify(defaultSourceSelections));
@@ -738,7 +743,7 @@ function mergeSubmitted(rows) {
     if (items.some(item => item.id === row.public_content_id)) return;
     items.unshift({
       id:row.public_content_id,passportId:row.public_passport_id,hash:row.content_hash,title:row.title,type:row.content_type,topic:row.topic,status:'Concept',
-      desc:row.description,provider:row.source_organisation,source:row.source_name,sourceUrl:row.media_url,audience:'Nog te kiezen',channels:[],owner:'Redactie JGZ Regio',
+      desc:row.description,provider:row.source_organisation,source:row.source_name,sourceUrl:row.media_url,audience:'Nog te kiezen',channels:[],owner:'Redactie JGZ Ouder&Kind',
       rights:row.rights_status,review:row.approval_confirmed ? 'Goedgekeurd in demo' : 'Nog te plannen',
       validator:row.validator_name ? row.validator_name + ' · ' + row.validator_organisation : 'Nog niet toegewezen',
       validation:row.validation_status === 'approved' ? 'Exacte versie goedgekeurd door de ingevulde valideerder.' : 'Voorgestelde controle: ' + row.validation_profile + '.'
@@ -824,8 +829,8 @@ function showWizardStep(step) {
 
 function openAdd(kind) {
   $('#content-form').reset();
-  document.querySelector('[name="sourceOrganisation"]').value = 'JGZ Regio';
-  document.querySelector('[name="validatorOrganisation"]').value = 'JGZ Regio';
+  document.querySelector('[name="sourceOrganisation"]').value = 'JGZ Ouder&Kind';
+  document.querySelector('[name="validatorOrganisation"]').value = 'JGZ Ouder&Kind';
   document.querySelector('[name="language"]').value = 'Nederlands';
   const choice = document.querySelector('[name="contentType"][value="' + kind + '"]');
   if (choice) choice.checked = true;
