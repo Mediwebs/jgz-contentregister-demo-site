@@ -8,6 +8,8 @@ https://mediwebs.github.io/jgz-contentregister-demo-site/
 
 De demo bevat voorbeeldgegevens en vormt geen medisch advies, kwaliteitskeurmerk of bewijs van toestemming. Nieuwe content wordt uitsluitend opgeslagen in de browser van de bezoeker en wordt niet centraal gedeeld.
 
+Inforiums en Inforium Notes zijn als afzonderlijke informatietypen beschikbaar. Inforium CHIP is opgenomen als platformbron.
+
 De volledige ontwikkelbron, Worker en databasestructuur staan in de privé-repository `Mediwebs/jgz-contentregister-demo`.
 
 ## Herkomst

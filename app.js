@@ -6,7 +6,8 @@ const PROVIDERS = [
   "Rijksvaccinatieprogramma",
   "Voedingscentrum",
   "Kinderveiligheid.nl",
-  "Pharos"
+  "Pharos",
+  "Inforium CHIP"
 ];
 
 const items = [
@@ -408,6 +409,40 @@ const items = [
     "rights": "Eigen productie met bronverwijzing",
     "review": "Jeugdarts en tandartsadviseur laten beoordelen",
     "validation": "Demo-item; inhoudelijke en transformatievalidatie staan open."
+  },
+  {
+    "id": "JGZ-021",
+    "title": "Voorbereiding op het 4-jarigencontact",
+    "type": "Inforium",
+    "topic": "Contact met de JGZ",
+    "status": "Concept",
+    "desc": "Voorbeeld van een Inforium dat ouders gericht kan worden toegestuurd vóór een contactmoment.",
+    "provider": "Inforium CHIP",
+    "source": "Inforium CMS",
+    "sourceUrl": "https://chip.inforium.nl/platform.html",
+    "audience": "Ouders van kinderen rond 4 jaar",
+    "channels": ["Ouderportaal", "JGZ-website"],
+    "owner": "Team 0–4 jaar",
+    "rights": "Eigen productie",
+    "review": "Inhoud en verzendmoment beoordelen",
+    "validation": "Demo-item; inhoud, doelgroep en context moeten nog worden gevalideerd."
+  },
+  {
+    "id": "JGZ-022",
+    "title": "Aandachtspunten bij taalontwikkeling",
+    "type": "Inforium Note",
+    "topic": "Ontwikkeling",
+    "status": "Nog controleren",
+    "desc": "Voorbeeld van een Inforium Note met beknopte vakinformatie voor de JGZ-professional.",
+    "provider": "Inforium CHIP",
+    "source": "Inforium Notes",
+    "sourceUrl": "https://chip.inforium.nl/platform.html",
+    "audience": "JGZ-professionals",
+    "channels": ["Consultondersteuning"],
+    "owner": "Staf jeugdgezondheidszorg",
+    "rights": "Eigen productie",
+    "review": "Vakinhoudelijke controle plannen",
+    "validation": "Demo-item; vakinhoudelijke beoordeling en lokale toepasbaarheid staan open."
   }
 ];
 
@@ -475,6 +510,14 @@ const sources = [
     "desc": "Kennis over begrijpelijke communicatie en passende zorg bij gezondheidsverschillen.",
     "url": "https://www.pharos.nl/",
     "kind": "Expertisecentrum"
+  },
+  {
+    "name": "Inforium CHIP",
+    "short": "I",
+    "color": "blue",
+    "desc": "Platformbron voor eigen Inforiums, Inforium Notes en gekoppelde zorginformatie.",
+    "url": "https://chip.inforium.nl/",
+    "kind": "Platformbron"
   }
 ];
 
@@ -571,6 +614,12 @@ const defaultSourceSelections = {
   "Pharos": [
     "professional",
     "portal"
+  ],
+  "Inforium CHIP": [
+    "website",
+    "portal",
+    "chatbot",
+    "professional"
   ]
 };
 
@@ -582,7 +631,7 @@ function loadSourceSelections() {
       delete saved['JGZ Regio'];
       localStorage.setItem('chip-jgz-source-outputs', JSON.stringify(saved));
     }
-    return saved && typeof saved === 'object' ? saved : JSON.parse(JSON.stringify(defaultSourceSelections));
+    return saved && typeof saved === 'object' ? {...JSON.parse(JSON.stringify(defaultSourceSelections)), ...saved} : JSON.parse(JSON.stringify(defaultSourceSelections));
   } catch {
     return JSON.parse(JSON.stringify(defaultSourceSelections));
   }
@@ -594,7 +643,7 @@ const $ = selector => document.querySelector(selector);
 const $$ = selector => Array.from(document.querySelectorAll(selector));
 const esc = value => String(value == null ? '' : value).replace(/[&<>'"]/g, character => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'})[character]);
 const statusClass = status => status === 'Nog controleren' ? 'check' : status === 'Concept' ? 'draft' : 'ready';
-const iconFor = type => ({Webpagina:'↗',Document:'▤',Video:'▶',Animatie:'◇','Eigen tekst':'✎',Keuzehulp:'⇄',Infographic:'▥'})[type] || '•';
+const iconFor = type => ({Webpagina:'↗',Document:'▤',Video:'▶',Animatie:'◇','Eigen tekst':'✎',Keuzehulp:'⇄',Infographic:'▥',Inforium:'i','Inforium Note':'N'})[type] || '•';
 
 async function sha256Hex(value) {
   const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(value));
